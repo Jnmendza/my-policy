@@ -1,72 +1,59 @@
-# 🏗 Architecture Overview
+# 📐 Privacy Policy Summarizer — Architecture Overview
 
-This document explains the design and architecture of **Privacy Policy Summarizer**, focusing on structure, data flow, and key decisions.
+## Project Goal
+
+To give users a simple tool to upload or paste lengthy privacy policies or terms of service and receive a clear, human-readable summary of what data is being collected, how it is used, and potential red flags.
 
 ---
 
-## ⚙️ 1. Context Diagram (Level 1)
+## Tech Stack
 
-```text
-[User] → [Next.js Web App] → [OpenAI API]
-                ↓                     ↑
-           [pdf-parse]             └───> returns summary JSON
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **LLM:** OpenAI GPT-4o or 3.5-turbo
+- **PDF Parser:** pdf-parse
+- **State:** React Hooks (`useState`, `useEffect`, `useRouter`)
+- **Deployment:** Vercel
 
-- User uploads or pastes legal text.
+---
 
-- Web App extracts text (if PDF), calls OpenAI, and renders results.
+## Functional Overview
 
-- OpenAI API performs policy analysis.
+1. **Input** — User uploads a PDF or pastes raw text.
+2. **Parsing** — Extract plain text from PDF.
+3. **Summarization** — Send prompt to OpenAI API.
+4. **Output** — Render a structured summary of key points:
+   - What data is collected
+   - How it’s used
+   - Who it’s shared with
+   - Any red flags
 
-- Outcome: structured summary rendered in UI.
-```
+---
 
-## 🧩 2. Container Diagram (Level 2)
+## Routing
 
-| Container             |                            Responsibility                            |
-| --------------------- | :------------------------------------------------------------------: |
-| Web Frontend          | UI for upload/paste, state management (sessionStorage), summary view |
-| API / Lambda Function |    Routes: /api/analyze: handles input, PDF parsing, OpenAI calls    |
-| OpenAI Service        |                GPT model performing NLP summary tasks                |
+| Path       | Purpose                        |
+| ---------- | ------------------------------ |
+| `/`        | Upload or paste privacy policy |
+| `/summary` | Show user-friendly AI summary  |
+| `/about`   | Info about the app             |
 
-## Data Flow:
+---
 
-1. User input → analyze-policy endpoint
+## API Flow
 
-2. PDF → pdf-parse; Text input → validated
+- `POST /api/parse-pdf`
+  - Accepts `multipart/form-data` → returns raw extracted text.
+- `POST /api/summarize`
+  - Accepts `{ text: string }` → returns summary array.
 
-3. Prompt sent to OpenAI → JSON response
+---
 
-4. UI displays sections: dataCollected, redFlags, summary, etc.
+## Prompt Engineering
 
-## 3. Component Diagram (Level 3 - Backend)
+Prompt will instruct the LLM to:
 
-```bash
-API
-├─ TextValidator ── ensures input length & boilerplate check
-├─ PdfParser ── extracts text from PDF
-├─ PromptBuilder ── crafts structured prompt
-├─ OpenAIClient ── wraps API call with error handling
-└─ ResponseParser ── strips markdown, parses JSON safely
-```
-
-- **Validation**: minimum word count (e.g. 200 words)
-- **Prompt**: encourages raw JSON response
-- **Error Handling**: cleans markdown, tries JSON.parse, retries once if needed
-
-**Purpose**: Ensures robustness against unpredictable AI output and lets you trace structure
-
-## 4. Code & Deployment (Level 4)
-
-- **Frontend**: Next.js + TypeScript + shadcn UI
-
-- **Backend**: Next.js API routes (deployed serverless e.g., Vercel)
-
-- **Model Calls**: via OpenAI client, abstracted with retry logic
-
-- **DevOps**:
-
-  - CI/CD via GitHub Actions
-
-  - Environment variables for OPENAI_API_KEY
-
-  - Monitoring via function logs
+- Output a JSON array of key takeaways.
+- Classify each point under categories (e.g., `Data Collected`, `Usage`, `Sharing`, `Red Flags`)
+- Use plain English suitable for non-technical users.
