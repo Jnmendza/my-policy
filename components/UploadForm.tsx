@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Progress } from "./ui/progress";
+import { toast } from "sonner";
 
 const UploadForm = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -30,17 +31,21 @@ const UploadForm = () => {
           body: formData,
         });
 
+        if (!res.ok) throw new Error("Failed to parse PDF");
+
         const { text: parsed } = await res.json();
         extractedText = parsed;
       }
 
       setProgress(60);
 
-      const summaryRes = await fetch("/api/generate-summary", {
+      const summaryRes = await fetch("/api/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: extractedText }),
       });
+
+      if (!summaryRes.ok) throw new Error("Failed to generate summary");
 
       const { summary } = await summaryRes.json();
       sessionStorage.setItem("summary", JSON.stringify(summary));
@@ -49,7 +54,12 @@ const UploadForm = () => {
       router.push("/summary");
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please try again.");
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+      setProgress(0);
     } finally {
       setLoading(false);
     }
