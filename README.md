@@ -47,3 +47,16 @@ git clone https://github.com/your-username/my-policy.git
 cd my-policy
 npm install
 ```
+## Create `.env.local`
+```bash
+npm run dev
+```
+Visit http://localhost:3000
+
+## 🧩 High-Level Architecture
+```bash
+[ User ]  --upload or paste-->  [ Next.js Frontend ]
+      --> fetch /api/analyze-policy --> [ pdf-parse / string parsing ]
+                                       --> [ OpenAI summarization ]
+      <-- returns structured JSON summary ---results page UI-->
+```
