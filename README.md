@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔐 Privacy Policy Summarizer
 
-## Getting Started
+A web app that helps users understand long privacy policies, terms of service, and contracts by highlighting key points like what data is collected, how it's used, who it's shared with, and any red flags.
 
-First, run the development server:
+---
+
+## 🎯 Mission Statement
+
+Empower users to make informed decisions when signing up for apps or services by transforming dense legal text into clear, concise bullet points and summaries using AI.
+
+---
+
+## ✨ Core Features
+
+- 🗂️ **Upload or paste** privacy policies, terms of service, or contracts (PDF or text).
+- 🤖 **AI-powered summarization** using OpenAI (GPT-3.5 or GPT-4 variants).
+- 📋 **Structured output**: data collected, usage, third-party sharing, user rights, summary, and red flags.
+- ⚠️ **User input validation**: warns on too-short or incomplete input.
+- 🚨 **Error handling**: deals gracefully with invalid AI responses.
+
+---
+
+## 💼 Use Cases
+
+- Evaluate what an app will collect and share before signing up.
+- Review freelance contracts, service agreements, or app terms.
+- Parents vetting kids’ apps.
+- Job-seekers reviewing offer letters.
+
+---
+
+## 🧰 Tech Stack
+
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS** + **shadcn/ui**
+- **OpenAI API** (GPT)
+- **pdf-parse** (for PDF uploads)
+- **React Hooks** (`useState`, `useEffect`)
+
+---
+
+## 🛠️ Setup & Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/privacy-summary-app.git
+cd privacy-summary-app
+npm install
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
