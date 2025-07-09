@@ -1,6 +1,6 @@
-module.exports = {
-  darkMode: "class",
-  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+/** @type {import('tailwindcss').Config} */
+const config = {
+  content: ["./app/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -13,3 +13,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+export default config;

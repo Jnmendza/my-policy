@@ -1,3 +1,9 @@
+import UploadForm from "@/components/UploadForm";
+
 export default function Home() {
-  return <div>MY POLICY APP</div>;
+  return (
+    <div>
+      <UploadForm />
+    </div>
+  );
 }
