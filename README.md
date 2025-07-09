@@ -43,7 +43,7 @@ Empower users to make informed decisions when signing up for apps or services by
 ## 🛠️ Setup & Installation
 
 ```bash
-git clone https://github.com/your-username/privacy-summary-app.git
-cd privacy-summary-app
+git clone https://github.com/your-username/my-policy.git
+cd my-policy
 npm install
 ```
