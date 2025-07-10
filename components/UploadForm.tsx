@@ -103,7 +103,7 @@ const UploadForm = () => {
             setText(typedText);
             if (typedText.length > 0) setFile(null); // Clear file if typing starts
           }}
-          className='min-h-[160px]'
+          className='min-h-[160px] max-h-[300px] overflow-y-auto resize-none'
           disabled={!!file}
         />
         <div className='flex justify-between items-center mt-2'>
