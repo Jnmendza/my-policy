@@ -9,7 +9,7 @@ const Navbar = () => {
 
   return (
     <nav className='flex items-center justify-between px-6 py-4 bg-white border-b dark:bg-black'>
-      <div className='text-xl font-bold'>PolicyAI</div>
+      <div className='text-xl font-bold'>My-Policy</div>
       <div className='flex items-center gap-4'>
         <ThemeSwitch />
 
