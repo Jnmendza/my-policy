@@ -48,7 +48,8 @@ const UploadForm = () => {
       if (!summaryRes.ok) throw new Error("Failed to generate summary");
 
       const { summary } = await summaryRes.json();
-      sessionStorage.setItem("summary", JSON.stringify(summary));
+      // sessionStorage.setItem("summary", JSON.stringify(summary));
+      sessionStorage.setItem("summary", summary);
       setProgress(100);
 
       router.push("/summary");
@@ -73,19 +74,49 @@ const UploadForm = () => {
         <Input
           type='file'
           accept='application/pdf'
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
+          disabled={text.trim().length > 0}
+          onChange={(e) => {
+            const selectedFile = e.target.files?.[0] || null;
+            setFile(selectedFile);
+            if (selectedFile) setText("");
+          }}
         />
-        {file && <p className='mt-2 text-sm'>Selected: {file.name}</p>}
+        {file && (
+          <div className='mt-2 flex items-center justify-between text-sm'>
+            <p className='truncate'>{file.name}</p>
+            <button
+              onClick={() => setFile(null)}
+              className='ml-4 text-red-600 hover:underline text-xs'
+            >
+              Clear
+            </button>
+          </div>
+        )}
       </div>
 
       <div>
         <Textarea
-          placeholder='Or paste policy text here...'
+          placeholder='Or paste policy text here... min 30 characters'
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            const typedText = e.target.value;
+            setText(typedText);
+            if (typedText.length > 0) setFile(null); // Clear file if typing starts
+          }}
           className='min-h-[160px]'
+          disabled={!!file}
         />
-        <p className='text-sm text-right mt-1'>{text.length} characters</p>
+        <div className='flex justify-between items-center mt-2'>
+          <button
+            onClick={() => setText("")}
+            className={`text-xs text-red-600 hover:underline ${
+              text && !file ? "" : "invisible"
+            }`}
+          >
+            Clear Text
+          </button>
+          <p className='text-sm'>{text.length} characters</p>
+        </div>
       </div>
 
       {loading && <Progress value={progress} className='h-2' />}
